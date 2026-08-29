@@ -14,6 +14,10 @@ const paymentsRouter = require('./routes/payments');
 const adminRouter = require('./routes/admin');
 
 const app = express();
+// Render (and most PaaS hosts) terminate TLS at a reverse proxy and forward
+// plain HTTP internally — without this, req.secure is always false, which
+// breaks the cross-site guest cookie logic in attachOwnerId.
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 4000;
 // Comma-separated list, e.g. "http://localhost:5500,http://192.168.1.5:5500"
 // so the same backend serves both the local browser and other devices on the LAN.

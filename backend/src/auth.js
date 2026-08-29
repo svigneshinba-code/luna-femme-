@@ -72,9 +72,14 @@ function attachOwnerId(req, res, next) {
   let guestId = existingGuestId;
   if (!guestId) {
     guestId = uuidv4();
+    // Frontend and backend live on different domains in production (e.g.
+    // lunafemme.in vs onrender.com), so the cookie needs SameSite=None +
+    // Secure to survive a cross-site fetch. Locally (plain http://) that
+    // combination is rejected by browsers, so fall back to Lax there.
     res.cookie(GUEST_COOKIE, guestId, {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: req.secure ? 'none' : 'lax',
+      secure: req.secure,
       maxAge: 1000 * 60 * 60 * 24 * 365
     });
   }
