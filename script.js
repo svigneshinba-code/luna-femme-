@@ -39,8 +39,9 @@ document.addEventListener('DOMContentLoaded', function () {
             : '';
         const soldOut = product.available === false;
         return '<a href="#" class="product-card' + (soldOut ? ' sold-out' : '') + '" data-handle="' + htmlEncode(product.handle) + '">' +
-            '<div class="product-img"><img src="' + (product.img || 'images/dress1.svg') + '" alt="' + htmlEncode(product.title) + '" loading="lazy"></div>' +
+            '<div class="product-img"><img src="' + (product.img || 'images/dress1.svg') + '" alt="' + htmlEncode(product.title) + '" loading="lazy">' +
             (soldOut ? '<div class="sold-out-badge">sold out</div>' : '') +
+            '</div>' +
             '<div class="product-name">' + htmlEncode(product.title.toLowerCase()) + '</div>' +
             '<div class="product-price"><span class="sale-price">' + fmtPrice(product.price) + '</span>' + compare + '</div>' +
             '<button type="button" class="add-to-bag"' + (soldOut ? ' disabled' : '') + ' data-handle="' + htmlEncode(product.handle) + '">' +
