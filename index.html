@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna Femme | Trendy Women's Clothing Online India</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+
+    <!-- Announcement Ticker -->
+    <div class="announcement-ticker">
+        <div class="ticker-track">
+            <span>15% OFF above ₹1499 · code SUMMER15 ✈ 7-day easy returns ✈ COD available ✈ new drop every wednesday ✈&nbsp;</span>
+            <span>15% OFF above ₹1499 · code SUMMER15 ✈ 7-day easy returns ✈ COD available ✈ new drop every wednesday ✈&nbsp;</span>
+            <span>15% OFF above ₹1499 · code SUMMER15 ✈ 7-day easy returns ✈ COD available ✈ new drop every wednesday ✈&nbsp;</span>
+            <span>15% OFF above ₹1499 · code SUMMER15 ✈ 7-day easy returns ✈ COD available ✈ new drop every wednesday ✈&nbsp;</span>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="header-container">
+                <div class="header-left">
+                    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+                        <svg width="22" height="16" viewBox="0 0 22 16" fill="none">
+                            <rect width="22" height="2" rx="1" fill="currentColor"/>
+                            <rect y="7" width="22" height="2" rx="1" fill="currentColor"/>
+                            <rect y="14" width="22" height="2" rx="1" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <a href="/" class="logo">
+                        <svg viewBox="0 0 180 40" class="logo-svg">
+                            <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-family="Arimo, sans-serif" font-size="24" font-weight="700" fill="#000">LUNA FEMME</text>
+                        </svg>
+                    </a>
+                </div>
+                <div class="header-right">
+                    <button class="header-icon" id="searchBtn" aria-label="Search">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"/>
+                            <path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </button>
+                    <a href="#" class="header-icon" id="accountBtn" aria-label="Account">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="header-icon wishlist-icon" id="wishBtn" aria-label="Wishlist">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                        <span class="badge" id="wishCount">0</span>
+                    </a>
+                    <a href="#" class="header-icon cart-icon" id="cartBtn" aria-label="Cart">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                        <span class="badge" id="cartCount">0</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <nav class="menu-bar" id="menuBar">
+            <div class="menu-container">
+                <ul class="nav-menu">
+                    <li class="nav-item has-dropdown">
+                        <a href="#" class="nav-link" data-nav="newin">New In</a>
+                        <ul class="dropdown">
+                            <li><a href="#" data-nav="newin">All New In</a></li>
+                            <li><a href="#" data-nav="Shirts">New In Shirts</a></li>
+                            <li><a href="#" data-nav="Tops">New In Tops</a></li>
+                            <li><a href="#" data-nav="Co-ord Sets">New In Co-ords</a></li>
+                            <li><a href="#" data-nav="Dresses">New In Dresses</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-nav="bestseller">Most Loved</a></li>
+                    <li class="nav-item has-dropdown">
+                        <a href="#" class="nav-link" data-nav="all">Clothing</a>
+                        <ul class="dropdown">
+                            <li><a href="#" data-nav="Shirts">Shirts</a></li>
+                            <li><a href="#" data-nav="Dresses">Dresses</a></li>
+                            <li><a href="#" data-nav="Tops">Tops</a></li>
+                            <li><a href="#" data-nav="Co-ord Sets">Co-ord Sets</a></li>
+                            <li><a href="#" data-nav="Skirts">Skirts</a></li>
+                            <li><a href="#" data-nav="Pants">Bottoms</a></li>
+                            <li><a href="#" data-nav="Swim">Swimwear</a></li>
+                            <li><a href="#" data-nav="Jumpsuits">Jumpsuits</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-dropdown">
+                        <a href="#" class="nav-link" data-nav="Shirts">Shirts</a>
+                        <ul class="dropdown">
+                            <li><a href="#" data-nav="Shirts">All Shirts</a></li>
+                            <li><a href="#" data-nav="Shirts">Printed Shirts</a></li>
+                            <li><a href="#" data-nav="Shirts">Embroidered Shirts</a></li>
+                            <li><a href="#" data-nav="Shirts">Shirts Under 999</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-dropdown">
+                        <a href="#" class="nav-link" data-nav="Tops">Tops</a>
+                        <ul class="dropdown">
+                            <li><a href="#" data-nav="Tops">All Tops</a></li>
+                            <li><a href="#" data-nav="Tops">Going Out Tops</a></li>
+                            <li><a href="#" data-nav="Tops">Crop Tops</a></li>
+                            <li><a href="#" data-nav="Tops">Sleeveless Tops</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-nav="Tees">Tees & Tanks</a></li>
+                    <li class="nav-item has-dropdown">
+                        <a href="#" class="nav-link" data-nav="Dresses">Dresses</a>
+                        <ul class="dropdown">
+                            <li><a href="#" data-nav="Dresses">All Dresses</a></li>
+                            <li><a href="#" data-nav="Dresses">Cotton Dresses</a></li>
+                            <li><a href="#" data-nav="Dresses">Party Dresses</a></li>
+                            <li><a href="#" data-nav="Dresses">Midi Dresses</a></li>
+                            <li><a href="#" data-nav="Dresses">Maxi Dresses</a></li>
+                            <li><a href="#" data-nav="Dresses">Mini Dresses</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-dropdown">
+                        <a href="#" class="nav-link" data-nav="Co-ord Sets">Co-ords</a>
+                        <ul class="dropdown">
+                            <li><a href="#" data-nav="Co-ord Sets">All Co-ords</a></li>
+                            <li><a href="#" data-nav="Co-ord Sets">Cotton Co-ord Sets</a></li>
+                            <li><a href="#" data-nav="Co-ord Sets">Linen Co-ord Sets</a></li>
+                            <li><a href="#" data-nav="Co-ord Sets">Solid Co-ord Sets</a></li>
+                            <li><a href="#" data-nav="Co-ord Sets">Printed Co-ord Sets</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a href="#" class="nav-link" data-nav="Swim">Swim</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link nav-sale" data-nav="sale">Sale</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <svg viewBox="0 0 180 40" class="mobile-logo">
+                <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-family="Arimo, sans-serif" font-size="19" font-weight="700" fill="#000">LUNA FEMME</text>
+            </svg>
+            <button class="close-menu" id="closeMenu" aria-label="Close">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-menu-content">
+            <div class="mobile-search">
+                <input type="text" placeholder='search "corset dress", "linen co-ord"…' class="mobile-search-input">
+            </div>
+            <ul class="mobile-nav">
+                <li class="mobile-nav-item"><a href="#" data-nav="newin">Just Launched</a></li>
+                <li class="mobile-nav-item"><a href="#" data-nav="bestseller">Bestsellers</a></li>
+                <li class="mobile-nav-item accordion-item">
+                    <button class="accordion-btn">Tops <span class="arrow">›</span></button>
+                    <ul class="accordion-content">
+                        <li><a href="#" data-nav="Tops">All Tops</a></li>
+                        <li><a href="#" data-nav="Tops">Crop Tops</a></li>
+                        <li><a href="#" data-nav="Tops">Sleeveless Tops</a></li>
+                    </ul>
+                </li>
+                <li class="mobile-nav-item accordion-item">
+                    <button class="accordion-btn">Dresses <span class="arrow">›</span></button>
+                    <ul class="accordion-content">
+                        <li><a href="#" data-nav="Dresses">All Dresses</a></li>
+                        <li><a href="#" data-nav="Dresses">Cotton Dresses</a></li>
+                        <li><a href="#" data-nav="Dresses">Party Dresses</a></li>
+                    </ul>
+                </li>
+                <li class="mobile-nav-item accordion-item">
+                    <button class="accordion-btn">Shirts <span class="arrow">›</span></button>
+                    <ul class="accordion-content">
+                        <li><a href="#" data-nav="Shirts">All Shirts</a></li>
+                        <li><a href="#" data-nav="Shirts">Printed Shirts</a></li>
+                    </ul>
+                </li>
+                <li class="mobile-nav-item"><a href="#" data-nav="Co-ord Sets">Co-ord Sets</a></li>
+                <li class="mobile-nav-item"><a href="#" data-nav="Skirts">Skirts & Pants</a></li>
+                <li class="mobile-nav-item"><a href="#" data-nav="Swim">Swimwear</a></li>
+                <li class="mobile-nav-item"><a href="#" data-nav="sale" class="mobile-sale">SALE</a></li>
+            </ul>
+            <div class="mobile-menu-footer">
+                <a href="#">Size Chart</a>
+                <a href="#">About Us</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </div>
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+        <div class="search-container">
+            <button class="search-close" id="searchClose" aria-label="Close search">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+            <div class="search-logo">
+                <svg viewBox="0 0 180 40" style="width:80px;">
+                    <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" font-family="Arimo, sans-serif" font-size="19" font-weight="700" fill="#000">LUNA FEMME</text>
+                </svg>
+            </div>
+            <form class="search-form">
+                <input type="text" placeholder="Search products" class="search-input" id="searchInput">
+                <button type="submit" class="search-submit">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                </button>
+            </form>
+            <div class="search-results" id="searchResults">
+                <p class="search-hint">Type to search for products</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Category Circles -->
+        <section class="category-circles-section">
+            <div class="container">
+                <div class="category-search-pill">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8274" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"/>
+                        <path d="m21 21-4.35-4.35"/>
+                    </svg>
+                    <span>search "corset dress", "linen co-ord"…</span>
+                </div>
+                <div class="category-circles">
+                    <a href="#shopAll" class="category-circle" data-type="Dresses">
+                        <div class="circle-img"><img src="images/cat-dresses.png" alt="dresses"></div>
+                        <span>dresses</span>
+                    </a>
+                    <a href="#shopAll" class="category-circle" data-type="Tops">
+                        <div class="circle-img"><img src="images/cat-tops.png" alt="tops"></div>
+                        <span>tops</span>
+                    </a>
+                    <a href="#shopAll" class="category-circle" data-type="Co-ord Sets">
+                        <div class="circle-img"><img src="images/cat-coords.png" alt="co-ords"></div>
+                        <span>co-ords</span>
+                    </a>
+                    <a href="#shopAll" class="category-circle" data-type="Shirts">
+                        <div class="circle-img"><img src="images/cat-shirts.png" alt="shirts"></div>
+                        <span>shirts</span>
+                    </a>
+                    <a href="#shopAll" class="category-circle" data-type="Tops and Tees">
+                        <div class="circle-img"><img src="images/cat-tees.png" alt="tees"></div>
+                        <span>tees</span>
+                    </a>
+                    <a href="#shopAll" class="category-circle" data-type="Skirts">
+                        <div class="circle-img"><img src="images/cat-skirts.png" alt="skirts"></div>
+                        <span>skirts</span>
+                    </a>
+                    <a href="#shopAll" class="category-circle" data-type="sale">
+                        <div class="circle-img"><img src="images/cat-sale.png" alt="sale"></div>
+                        <span>sale</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero Slider -->
+        <section class="hero-slider" id="heroSlider">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('images/hero-1.png');"></div>
+                        <div class="slide-content slide-center">
+                            <h2 class="slide-title text-black">heatwave haul</h2>
+                            <a href="#" class="slide-link text-black" data-nav="Tees">shop now →</a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('images/hero-2.png');"></div>
+                        <div class="slide-content slide-center">
+                            <h2 class="slide-title text-white">wear it to a party</h2>
+                            <a href="#" class="slide-link text-white" data-nav="Dresses">shop now →</a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('images/hero-3.png');"></div>
+                        <div class="slide-content slide-left">
+                            <h2 class="slide-title text-black">or on vacation</h2>
+                            <a href="#" class="slide-link text-black" data-nav="Co-ord Sets">shop now →</a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('images/hero-4.png');"></div>
+                        <div class="slide-content slide-center">
+                            <h2 class="slide-title text-black">we matched it for you</h2>
+                            <a href="#" class="slide-link text-black" data-nav="Co-ord Sets">shop now →</a>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="slide-bg" style="background-image: url('images/hero-5.png');"></div>
+                        <div class="slide-content slide-center">
+                            <h2 class="slide-title text-black">wear it to work</h2>
+                            <a href="#" class="slide-link text-black" data-nav="Shirts">shop now →</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <!-- New This Week -->
+        <section class="product-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">new this week</h2>
+                    <a href="#" class="see-all" data-nav="newin">see all →</a>
+                </div>
+                <div class="product-row-scroll" id="newThisWeekRow"><p class="catalog-loading">loading products…</p></div>
+            </div>
+        </section>
+
+        <!-- Shop by Category -->
+        <section class="category-tiles-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">shop by category</h2>
+                </div>
+                <div class="category-tiles">
+                    <a href="#shopAll" class="category-tile" data-type="Tops">
+                        <div class="tile-img"><img src="images/cat-tile-tops.png" alt="tops"></div>
+                        <span class="tile-label">tops</span>
+                    </a>
+                    <a href="#shopAll" class="category-tile" data-type="Shirts">
+                        <div class="tile-img"><img src="images/cat-tile-shirts.png" alt="shirts"></div>
+                        <span class="tile-label">shirts</span>
+                    </a>
+                    <a href="#shopAll" class="category-tile" data-type="Co-ord Sets">
+                        <div class="tile-img"><img src="images/cat-tile-coords.png" alt="co-ords"></div>
+                        <span class="tile-label">co-ords</span>
+                    </a>
+                    <a href="#shopAll" class="category-tile" data-type="Tops and Tees">
+                        <div class="tile-img"><img src="images/cat-tile-tees.png" alt="tees"></div>
+                        <span class="tile-label">tees</span>
+                    </a>
+                    <a href="#shopAll" class="category-tile" data-type="Dresses">
+                        <div class="tile-img"><img src="images/cat-tile-dresses.png" alt="dresses"></div>
+                        <span class="tile-label">dresses</span>
+                    </a>
+                    <a href="#shopAll" class="category-tile" data-type="Skirts">
+                        <div class="tile-img"><img src="images/cat-tile-skirts.png" alt="skirts"></div>
+                        <span class="tile-label">skirts</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Promo Offer Banner -->
+        <section class="offer-banner-section">
+            <div class="container">
+                <a href="#" class="offer-banner">
+                    <div class="offer-big">15% off above ₹1499</div>
+                    <div class="offer-code">CODE: SUMMER15</div>
+                    <div class="offer-sub">also: 5% extra off on the app</div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Bestsellers -->
+        <section class="product-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">bestsellers</h2>
+                    <a href="#" class="see-all" data-nav="bestseller">see all →</a>
+                </div>
+                <div class="product-grid" id="bestsellersGrid"><p class="catalog-loading">loading bestsellers…</p></div>
+            </div>
+        </section>
+
+        <!-- Shop All Products -->
+        <section class="product-section" id="shopAll">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title" id="shopAllTitle">shop all products</h2>
+                </div>
+                <div class="shop-filter" id="shopFilter"></div>
+                <div class="product-grid" id="shopAllGrid"><p class="catalog-loading">loading products…</p></div>
+                <div class="load-more-wrap">
+                    <button class="load-more-btn" id="loadMoreBtn" type="button">load more</button>
+                    <p class="load-more-status" id="loadMoreStatus"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Shop by Budget -->
+        <section class="budget-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">shop by budget</h2>
+                </div>
+                <div class="budget-pills">
+                    <a href="#shopAll" class="budget-pill" data-price="u999">under ₹999</a>
+                    <a href="#shopAll" class="budget-pill" data-price="1000-1500">₹1000 – 1500</a>
+                    <a href="#shopAll" class="budget-pill" data-price="1500-2000">₹1500 – 2000</a>
+                    <a href="#shopAll" class="budget-pill" data-price="2000+">₹2000+</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Shop Luna Femme -->
+        <section class="why-section">
+            <div class="container">
+                <div class="why-grid">
+                    <div class="why-item">
+                        <div class="why-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                            </svg>
+                        </div>
+                        <span>made in india</span>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <span>designed in india</span>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                        </div>
+                        <span>same as shown</span>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="8.5" cy="7" r="4"/>
+                                <polyline points="17 11 19 13 23 9"/>
+                            </svg>
+                        </div>
+                        <span>xs – plus size</span>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <polyline points="1 4 1 10 7 10"/>
+                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                            </svg>
+                        </div>
+                        <span>7-day returns</span>
+                    </div>
+                    <div class="why-item">
+                        <div class="why-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                                <line x1="1" y1="10" x2="23" y2="10"/>
+                            </svg>
+                        </div>
+                        <span>cod available</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trending Now -->
+        <section class="trending-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">trending now</h2>
+                </div>
+                <div class="trending-tiles">
+                    <a href="#shopAll" class="trending-tile" data-trend="polka">
+                        <div class="trend-img"><img src="images/trend-polka.png" alt="polka"></div>
+                        <span class="trend-label">polka</span>
+                    </a>
+                    <a href="#shopAll" class="trending-tile" data-trend="desi">
+                        <div class="trend-img"><img src="images/trend-desi.png" alt="desi summer"></div>
+                        <span class="trend-label">desi summer</span>
+                    </a>
+                    <a href="#shopAll" class="trending-tile" data-trend="vacation">
+                        <div class="trend-img"><img src="images/trend-vacation.png" alt="vacation co-ords"></div>
+                        <span class="trend-label">vacation co-ords</span>
+                    </a>
+                    <a href="#shopAll" class="trending-tile" data-trend="work">
+                        <div class="trend-img"><img src="images/trend-office.png" alt="office siren"></div>
+                        <span class="trend-label">office siren</span>
+                    </a>
+                    <a href="#shopAll" class="trending-tile" data-trend="peplum">
+                        <div class="trend-img"><img src="images/trend-peplum.png" alt="peplum"></div>
+                        <span class="trend-label">peplum</span>
+                    </a>
+                    <a href="#shopAll" class="trending-tile" data-trend="bead">
+                        <div class="trend-img"><img src="images/trend-beaded.png" alt="hand-beaded"></div>
+                        <span class="trend-label">hand-beaded</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Customer Reviews -->
+        <section class="reviews-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">as worn by actual customers</h2>
+                </div>
+                <div class="reviews-grid">
+                    <div class="review-card">
+                        <p class="review-text">"absolutely love the quality! the fabric is so soft and the fit is perfect. ordering more colors now."</p>
+                        <span class="review-author">— priya m.</span>
+                    </div>
+                    <div class="review-card review-card--pink">
+                        <p class="review-text">"this co-ord set is everything! got so many compliments. definitely my new favorite brand."</p>
+                        <span class="review-author">— ananya k.</span>
+                    </div>
+                    <div class="review-card">
+                        <p class="review-text">"fast delivery and the dress looks exactly like the photos. sizing is accurate too!"</p>
+                        <span class="review-author">— meera s.</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="footer-columns">
+                    <div class="footer-col">
+                        <h4 class="footer-col-title">Company</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" data-info="about">About Us</a></li>
+                            <li><a href="#" data-info="sizeguide">Size Chart</a></li>
+                            <li><a href="#" data-info="blog">Blog</a></li>
+                            <li><a href="#" data-info="returns_my">My Returns</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4 class="footer-col-title">Policies</h4>
+                        <ul class="footer-links">
+                            <li><a href="#" data-info="privacy">Privacy Policy</a></li>
+                            <li><a href="#" data-info="shipping">Shipping & Returns</a></li>
+                            <li><a href="#" data-info="payments">Payments & Orders</a></li>
+                            <li><a href="#" data-info="contact">Contact Us</a></li>
+                            <li><a href="#" data-info="terms">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="footer-bottom-accordion">
+                    <button class="footer-accordion-btn" id="footerAccordionBtn">
+                        Luna Femme <span class="arrow">+</span>
+                    </button>
+                    <div class="footer-accordion-content" id="footerAccordionContent">
+                        <p>Luna Femme is a trendy women's clothing brand from India. We design and create fashionable clothing for the modern Indian woman. From casual everyday wear to party-ready outfits, we've got you covered.</p>
+                        <p><strong>Our Popular Categories:</strong> Women Tops · Dresses · Skirts · Bottoms & Pants · Jumpsuits · Tunics · T-Shirts</p>
+                    </div>
+                </div>
+                <div class="footer-copyright">
+                    © 2026, Luna Femme
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/917695841371" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Chat on WhatsApp">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="#fff">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <!-- Product Detail (full page) -->
+    <div class="pdp-overlay" id="pdpOverlay">
+        <div class="pp-topbar">
+            <button class="pp-back" id="ppBack" type="button">← back to shopping</button>
+            <span class="pp-brand">Luna Femme</span>
+        </div>
+        <div class="pp-wrap">
+            <div class="pdp-card">
+                <button class="pdp-close" id="pdpClose" type="button" aria-label="Close">&times;</button>
+                <div class="pp-grid">
+                    <div class="pp-gallery">
+                        <img class="pdp-img" id="pdpImg" alt="">
+                    </div>
+                    <div class="pdp-info">
+                        <div class="pdp-type" id="pdpType"></div>
+                        <h1 class="pdp-title" id="pdpTitle"></h1>
+                        <div class="pdp-price">
+                            <span class="pdp-sale" id="pdpSale"></span>
+                            <span class="pdp-before" id="pdpBefore"></span>
+                            <span class="pdp-save" id="pdpSave"></span>
+                        </div>
+                        <div class="pdp-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="pdp-rating-text" id="pdpRating"></span>
+                        </div>
+                        <div class="pdp-size-block">
+                            <div class="pdp-size-label">select size</div>
+                            <div class="pdp-sizes" id="pdpSizes"></div>
+                            <a href="#" class="pdp-size-guide" id="pdpSizeGuide">size guide</a>
+                        </div>
+                        <div class="pdp-qty-row">
+                            <div class="cart-qty">
+                                <button type="button" id="pdpQtyDec" aria-label="decrease">−</button>
+                                <span id="pdpQtyVal">1</span>
+                                <button type="button" id="pdpQtyInc" aria-label="increase">+</button>
+                            </div>
+                            <button class="pdp-wish" id="pdpWish" type="button" aria-label="Add to wishlist">♡</button>
+                        </div>
+                        <button class="pdp-add" id="pdpAdd" type="button">add to bag</button>
+                        <p class="pdp-note">COD available · 7-day easy returns · ₹100 shipping</p>
+                    </div>
+                </div>
+            </div>
+            <div class="pp-related">
+                <h2 class="section-title">you may also like</h2>
+                <div class="product-grid" id="ppRelated"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Size Guide -->
+    <div class="sizeguide-overlay" id="sizeGuideOverlay">
+        <div class="sizeguide-card">
+            <button class="sizeguide-close" id="sizeGuideClose" type="button" aria-label="Close">&times;</button>
+            <h3>size guide</h3>
+            <table>
+                <tr><th></th><th>S</th><th>M</th><th>L</th><th>XL</th></tr>
+                <tr><td>bust (cm)</td><td>84</td><td>90</td><td>96</td><td>102</td></tr>
+                <tr><td>waist (cm)</td><td>66</td><td>72</td><td>78</td><td>84</td></tr>
+                <tr><td>hip (cm)</td><td>90</td><td>96</td><td>102</td><td>108</td></tr>
+            </table>
+            <p class="sizeguide-note">fits true to size · between sizes? go one size up</p>
+        </div>
+    </div>
+
+    <!-- Cart / Wishlist Drawer -->
+    <div class="cart-overlay" id="cartOverlay"></div>
+    <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+        <div class="cart-head">
+            <h3 id="drawerTitle">your bag</h3>
+            <button class="cart-close" id="cartClose" type="button" aria-label="Close">&times;</button>
+        </div>
+        <div class="cart-body">
+            <div class="cart-items" id="cartItems"></div>
+            <div class="cart-empty" id="cartEmpty">your bag is empty</div>
+        </div>
+        <div class="cart-foot" id="cartFoot">
+            <div class="cart-subtotal">subtotal <span id="cartSubtotal">₹ 0</span></div>
+            <button class="cart-checkout" id="cartCheckout" type="button">checkout</button>
+            <p class="cart-note">COD available · 7-day easy returns</p>
+        </div>
+    </aside>
+    <div class="cart-toast" id="cartToast"></div>
+
+    <!-- Checkout -->
+    <div class="checkout-overlay" id="checkoutOverlay">
+        <div class="checkout-card">
+            <button class="checkout-close" id="checkoutClose" type="button" aria-label="Close">&times;</button>
+            <div class="checkout-form" id="checkoutForm">
+                <h3>checkout</h3>
+                <input type="text" id="coName" placeholder="full name">
+                <input type="tel" id="coPhone" placeholder="phone number" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" autocomplete="tel">
+                <input type="email" id="coEmail" placeholder="email">
+                <textarea id="coAddress" rows="2" placeholder="address"></textarea>
+                <div class="co-row">
+                    <input type="text" id="coCity" placeholder="city">
+                    <input type="text" id="coPin" placeholder="pincode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" autocomplete="postal-code">
+                </div>
+                <div class="co-pay">
+                    <label><input type="radio" name="pay" value="cod" checked> cash on delivery</label>
+                    <label><input type="radio" name="pay" value="razorpay"> pay online (UPI / card)</label>
+                </div>
+                <div class="co-shipping-row">shipping <span id="coShippingVal">₹ 100</span></div>
+                <div class="co-total">total <span id="coTotal">₹ 0</span></div>
+                <button class="co-place" id="placeOrder" type="button">place order</button>
+                <p class="co-note">this is a demo store — no real money is charged</p>
+            </div>
+            <div class="checkout-success" id="checkoutSuccess" hidden>
+                <div class="co-check">✓</div>
+                <h3>order placed!</h3>
+                <p class="co-success-sub">thank you! your order is confirmed.</p>
+                <p class="co-order-total" id="orderTotal"></p>
+                <p class="co-order-no" id="orderNo"></p>
+                <button class="co-place" id="orderOk" type="button">continue shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Account -->
+    <div class="checkout-overlay" id="accountOverlay">
+        <div class="checkout-card">
+            <button class="checkout-close" id="accountClose" type="button" aria-label="Close">&times;</button>
+            <div class="checkout-form" id="loginForm">
+                <h3>log in</h3>
+                <input type="email" id="loginEmail" placeholder="email" autocomplete="email">
+                <input type="password" id="loginPassword" placeholder="password" autocomplete="current-password">
+                <button class="co-place" id="loginSubmit" type="button">log in</button>
+                <p class="co-note">new here? <a href="#" id="showSignup">create an account</a></p>
+            </div>
+            <div class="checkout-form" id="signupForm" hidden>
+                <h3>sign up</h3>
+                <input type="text" id="signupName" placeholder="full name" autocomplete="name">
+                <input type="email" id="signupEmail" placeholder="email" autocomplete="email">
+                <input type="password" id="signupPassword" placeholder="password (min 6 chars)" autocomplete="new-password">
+                <button class="co-place" id="signupSubmit" type="button">create account</button>
+                <p class="co-note">already have an account? <a href="#" id="showLogin">log in</a></p>
+            </div>
+            <div class="checkout-success" id="accountSuccess" hidden>
+                <div class="co-check">✓</div>
+                <h3 id="accountWelcome">welcome!</h3>
+                <p class="co-success-sub" id="accountEmailShown"></p>
+                <button class="co-place" id="accountOk" type="button">continue shopping</button>
+                <button class="account-logout-link" id="logoutBtn" type="button">log out</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Info Modal (About, Policies, Contact…) -->
+    <div class="info-overlay" id="infoOverlay">
+        <div class="info-card">
+            <button class="info-close" id="infoClose" type="button" aria-label="Close">&times;</button>
+            <h3 id="infoTitle"></h3>
+            <div id="infoBody"></div>
+        </div>
+    </div>
+
+    <script src="products.js?v=3"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="script.js?v=4"></script>
+</body>
+</html>

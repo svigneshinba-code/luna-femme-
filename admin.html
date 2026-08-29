@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luna Femme Admin</title>
+<style>
+    * { box-sizing: border-box; }
+    body {
+        margin: 0;
+        font-family: Arimo, Arial, sans-serif;
+        background: #f7f4ef;
+        color: #1B1815;
+    }
+    .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 24px;
+        background: #1B1815;
+        color: #fff;
+    }
+    .topbar h1 {
+        font-size: 16px;
+        margin: 0;
+        text-transform: lowercase;
+        letter-spacing: -0.01em;
+    }
+    .topbar button {
+        background: none;
+        border: 1px solid #4a443e;
+        color: #fff;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        text-transform: lowercase;
+    }
+    .topbar button:hover { background: #2a2521; }
+
+    #loginScreen {
+        max-width: 340px;
+        margin: 80px auto;
+        background: #fff;
+        border-radius: 12px;
+        padding: 28px 24px;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+    }
+    #loginScreen h2 { margin-top: 0; font-size: 18px; text-transform: lowercase; }
+    #loginScreen input {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid #ddd6cc;
+        border-radius: 8px;
+        font-size: 13px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+    }
+    #loginScreen button {
+        width: 100%;
+        padding: 12px;
+        background: #1B1815;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        text-transform: lowercase;
+    }
+    #loginError { color: #8E2F47; font-size: 12px; margin-top: 8px; min-height: 16px; }
+
+    #app { display: none; padding: 20px 24px 60px; max-width: 1100px; margin: 0 auto; }
+    .tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+    .tab-btn {
+        padding: 8px 16px;
+        border: 1px solid #ddd6cc;
+        background: #fff;
+        border-radius: 8px;
+        font-size: 12.5px;
+        cursor: pointer;
+        text-transform: lowercase;
+    }
+    .tab-btn.active { background: #1B1815; color: #fff; border-color: #1B1815; }
+
+    table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; }
+    th, td { text-align: left; padding: 10px 12px; font-size: 12.5px; border-bottom: 1px solid #eee7dc; }
+    th { background: #f0ece5; font-weight: 700; text-transform: lowercase; }
+    tr:last-child td { border-bottom: none; }
+    .table-wrap { overflow-x: auto; background: #fff; border-radius: 10px; }
+
+    select, input.price-input {
+        padding: 5px 8px;
+        border: 1px solid #ddd6cc;
+        border-radius: 6px;
+        font-size: 12px;
+        font-family: inherit;
+    }
+    input.price-input { width: 70px; }
+    .save-btn {
+        background: #1B1815;
+        color: #fff;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 6px;
+        font-size: 11px;
+        cursor: pointer;
+    }
+    .save-btn:hover { background: #8E2F47; }
+    .status-badge {
+        text-transform: lowercase;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 20px;
+        background: #f0ece5;
+        font-size: 10.5px;
+    }
+    .status-badge.paid, .status-badge.delivered { background: #e5f3ea; color: #2d7a4b; }
+    .status-badge.cancelled { background: #f6e3e6; color: #8E2F47; }
+
+    .toolbar { display: flex; gap: 10px; margin-bottom: 14px; }
+    .toolbar input {
+        padding: 8px 10px;
+        border: 1px solid #ddd6cc;
+        border-radius: 8px;
+        font-size: 12.5px;
+        flex: 1;
+        max-width: 280px;
+    }
+    .pager { display: flex; gap: 8px; align-items: center; margin-top: 14px; font-size: 12px; }
+    .pager button {
+        padding: 5px 10px;
+        border: 1px solid #ddd6cc;
+        background: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+    .pager button:disabled { opacity: 0.4; cursor: not-allowed; }
+    .empty-msg { padding: 30px; text-align: center; color: #9a8d84; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <h1>luna femme admin</h1>
+    <button id="logoutBtn" type="button" style="display:none;">log out</button>
+</div>
+
+<div id="loginScreen">
+    <h2>admin login</h2>
+    <input type="email" id="loginEmail" placeholder="email" autocomplete="email">
+    <input type="password" id="loginPassword" placeholder="password" autocomplete="current-password">
+    <button id="loginBtn" type="button">log in</button>
+    <p id="loginError"></p>
+</div>
+
+<div id="app">
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="orders" type="button">orders</button>
+        <button class="tab-btn" data-tab="products" type="button">products</button>
+    </div>
+
+    <div id="ordersTab">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>order #</th><th>date</th><th>customer</th><th>address</th><th>items</th><th>total</th><th>status</th></tr>
+                </thead>
+                <tbody id="ordersBody"></tbody>
+            </table>
+        </div>
+        <div class="empty-msg" id="ordersEmpty" style="display:none;">no orders yet</div>
+    </div>
+
+    <div id="productsTab" style="display:none;">
+        <div class="toolbar">
+            <input type="text" id="productSearch" placeholder="search products...">
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>title</th><th>type</th><th>price</th><th>compare at</th><th>available</th><th></th></tr>
+                </thead>
+                <tbody id="productsBody"></tbody>
+            </table>
+        </div>
+        <div class="pager">
+            <button id="prevPage" type="button">&larr; prev</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage" type="button">next &rarr;</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const API_BASE = 'http://' + window.location.hostname + ':4000/api';
+let TOKEN = null;
+let productPage = 1;
+let productSearch = '';
+
+function getToken() {
+    try { return localStorage.getItem('avelyn_admin_token'); } catch (e) { return null; }
+}
+function setToken(t) {
+    try { if (t) localStorage.setItem('avelyn_admin_token', t); else localStorage.removeItem('avelyn_admin_token'); } catch (e) {}
+}
+
+function apiFetch(path, options) {
+    options = options || {};
+    const headers = Object.assign({ 'Content-Type': 'application/json' }, options.headers);
+    if (TOKEN) headers['Authorization'] = 'Bearer ' + TOKEN;
+    return fetch(API_BASE + path, Object.assign({}, options, { headers }))
+        .then(function (r) {
+            return r.json().then(function (data) {
+                if (!r.ok) throw new Error(data.error || 'request failed');
+                return data;
+            });
+        });
+}
+
+function fmtPrice(n) { return '₹ ' + Number(n).toLocaleString('en-IN'); }
+function fmtDate(iso) {
+    return new Date(iso).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+}
+
+/* ---------- Auth ---------- */
+function showLogin() {
+    document.getElementById('loginScreen').style.display = 'block';
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'none';
+}
+
+function showApp() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    document.getElementById('logoutBtn').style.display = 'inline-block';
+    loadOrders();
+}
+
+function login() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errEl = document.getElementById('loginError');
+    errEl.textContent = '';
+    if (!email || !password) { errEl.textContent = 'enter email and password'; return; }
+
+    fetch(API_BASE + '/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password })
+    }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (!res.ok) { errEl.textContent = res.d.error || 'login failed'; return; }
+        if (!res.d.user || res.d.user.role !== 'admin') {
+            errEl.textContent = 'this account does not have admin access';
+            return;
+        }
+        TOKEN = res.d.token;
+        setToken(TOKEN);
+        showApp();
+    }).catch(function () { errEl.textContent = 'could not reach the server'; });
+}
+
+function logout() {
+    TOKEN = null;
+    setToken(null);
+    showLogin();
+}
+
+function tryResumeSession() {
+    const t = getToken();
+    if (!t) { showLogin(); return; }
+    TOKEN = t;
+    apiFetch('/auth/me').then(function (user) {
+        if (user.role !== 'admin') { logout(); return; }
+        showApp();
+    }).catch(function () { logout(); });
+}
+
+/* ---------- Orders ---------- */
+function orderRow(order) {
+    const itemsSummary = order.items.map(function (l) { return esc(l.title) + ' x' + l.qty; }).join(', ');
+    const options = ['placed', 'paid', 'shipped', 'delivered', 'cancelled'].map(function (s) {
+        return '<option value="' + s + '"' + (s === order.status ? ' selected' : '') + '>' + s + '</option>';
+    }).join('');
+    const s = order.shipping;
+    const addressLines = [s.address, [s.city, s.pincode].filter(Boolean).join(' - ')].filter(Boolean).join('<br>');
+    return '<tr>' +
+        '<td>' + esc(order.orderNumber) + '</td>' +
+        '<td>' + fmtDate(order.createdAt) + '</td>' +
+        '<td>' + esc(s.name) + '<br><span style="color:#9a8d84">' + esc(s.phone) + '</span></td>' +
+        '<td style="max-width:220px;white-space:normal;">' + esc(addressLines).replace(/&lt;br&gt;/g, '<br>') + '</td>' +
+        '<td>' + itemsSummary + '</td>' +
+        '<td>' + fmtPrice(order.totals.total) + '</td>' +
+        '<td><select data-order-id="' + order.id + '">' + options + '</select></td>' +
+        '</tr>';
+}
+
+function loadOrders() {
+    apiFetch('/admin/orders').then(function (data) {
+        const orders = data.items || [];
+        document.getElementById('ordersBody').innerHTML = orders.map(orderRow).join('');
+        document.getElementById('ordersEmpty').style.display = orders.length ? 'none' : 'block';
+    }).catch(function (err) { console.warn('Failed to load orders:', err); });
+}
+
+document.addEventListener('change', function (e) {
+    const sel = e.target.closest('[data-order-id]');
+    if (!sel) return;
+    apiFetch('/admin/orders/' + sel.getAttribute('data-order-id'), {
+        method: 'PATCH',
+        body: JSON.stringify({ status: sel.value })
+    }).catch(function (err) {
+        alert('could not update status: ' + err.message);
+        loadOrders();
+    });
+});
+
+/* ---------- Products ---------- */
+function productRow(p) {
+    return '<tr data-handle="' + esc(p.handle) + '">' +
+        '<td>' + esc(p.title) + '</td>' +
+        '<td>' + esc(p.type) + '</td>' +
+        '<td><input class="price-input" type="number" data-field="price" value="' + p.price + '"></td>' +
+        '<td><input class="price-input" type="number" data-field="compareAt" value="' + (p.compareAt || '') + '"></td>' +
+        '<td><input type="checkbox" data-field="available" ' + (p.available ? 'checked' : '') + '></td>' +
+        '<td><button class="save-btn" type="button">save</button></td>' +
+        '</tr>';
+}
+
+function loadProducts() {
+    const params = new URLSearchParams({ page: productPage, limit: 20 });
+    if (productSearch) params.set('search', productSearch);
+    fetch(API_BASE + '/products?' + params.toString())
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+            document.getElementById('productsBody').innerHTML = (data.items || []).map(productRow).join('');
+            document.getElementById('pageInfo').textContent = 'page ' + data.page + ' of ' + (data.totalPages || 1);
+            document.getElementById('prevPage').disabled = data.page <= 1;
+            document.getElementById('nextPage').disabled = data.page >= data.totalPages;
+        }).catch(function (err) { console.warn('Failed to load products:', err); });
+}
+
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.save-btn');
+    if (!btn) return;
+    const row = btn.closest('tr');
+    const handle = row.getAttribute('data-handle');
+    const price = row.querySelector('[data-field="price"]').value;
+    const compareAt = row.querySelector('[data-field="compareAt"]').value;
+    const available = row.querySelector('[data-field="available"]').checked;
+    apiFetch('/admin/products/' + encodeURIComponent(handle), {
+        method: 'PATCH',
+        body: JSON.stringify({
+            price: Number(price),
+            compareAt: compareAt === '' ? null : Number(compareAt),
+            available: available
+        })
+    }).then(function () {
+        btn.textContent = 'saved ✓';
+        setTimeout(function () { btn.textContent = 'save'; }, 1200);
+    }).catch(function (err) { alert('could not save: ' + err.message); });
+});
+
+/* ---------- Init ---------- */
+document.getElementById('loginBtn').addEventListener('click', login);
+document.getElementById('loginPassword').addEventListener('keydown', function (e) { if (e.key === 'Enter') login(); });
+document.getElementById('logoutBtn').addEventListener('click', logout);
+
+document.querySelectorAll('.tab-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+        document.querySelectorAll('.tab-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        const tab = btn.getAttribute('data-tab');
+        document.getElementById('ordersTab').style.display = tab === 'orders' ? 'block' : 'none';
+        document.getElementById('productsTab').style.display = tab === 'products' ? 'block' : 'none';
+        if (tab === 'products') loadProducts();
+    });
+});
+
+let searchTimer = null;
+document.getElementById('productSearch').addEventListener('input', function () {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
+        productSearch = this.value.trim();
+        productPage = 1;
+        loadProducts();
+    }.bind(this), 300);
+});
+document.getElementById('prevPage').addEventListener('click', function () { productPage--; loadProducts(); });
+document.getElementById('nextPage').addEventListener('click', function () { productPage++; loadProducts(); });
+
+tryResumeSession();
+</script>
+</body>
+</html>
