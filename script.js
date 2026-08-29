@@ -2,9 +2,14 @@
 // UPTOWNIE REPLICA — Interactive Scripts
 // ============================================
 
-// Uses whatever host the page was loaded from, so this works both on
-// localhost and when opened from another device on the LAN (e.g. a phone).
-const API_BASE = 'http://' + window.location.hostname + ':4000/api';
+// Local/LAN dev hits the backend on the same host at :4000; anywhere else
+// (Netlify, the live domain) talks to the deployed Render backend.
+const API_BASE = (function () {
+    const host = window.location.hostname;
+    const isLocal = host === 'localhost' || host === '127.0.0.1' ||
+        /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/.test(host);
+    return isLocal ? 'http://' + host + ':4000/api' : 'https://luna-femme.onrender.com/api';
+})();
 
 document.addEventListener('DOMContentLoaded', function () {
 

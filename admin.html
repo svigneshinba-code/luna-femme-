@@ -193,7 +193,12 @@
 </div>
 
 <script>
-const API_BASE = 'http://' + window.location.hostname + ':4000/api';
+const API_BASE = (function () {
+    const host = window.location.hostname;
+    const isLocal = host === 'localhost' || host === '127.0.0.1' ||
+        /^(10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[0-1])\.)/.test(host);
+    return isLocal ? 'http://' + host + ':4000/api' : 'https://luna-femme.onrender.com/api';
+})();
 let TOKEN = null;
 let productPage = 1;
 let productSearch = '';
