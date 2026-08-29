@@ -1,8 +1,6 @@
 const express = require('express');
 const { v4: uuidv4 } = require('uuid');
 const db = require('../db');
-const { getProducts } = require('../db');
-const { requireAuth } = require('../auth');
 
 const router = express.Router();
 
@@ -18,10 +16,9 @@ function computeTotals(lines) {
 // Builds the {handle, title, img, size, qty, price} lines for whatever is
 // currently in req.ownerId's cart. Shared by the COD checkout route and the
 // Razorpay order/verify routes so both price a payment off the same cart.
-function getCartLines(ownerId) {
-  const data = db.load();
-  const cartItems = data.carts[ownerId] || [];
-  const products = getProducts();
+async function getCartLines(ownerId) {
+  const cartItems = await db.getCart(ownerId);
+  const products = await db.getProducts();
   return cartItems.map((line) => {
     const product = products.find((p) => p.handle === line.handle);
     return product && {
@@ -37,8 +34,7 @@ function getCartLines(ownerId) {
 
 // Creates and stores the order, empties the cart, and returns it. Does not
 // touch the response — callers (checkout / razorpay verify) send it back.
-function placeOrder(req, lines, { paymentMethod, status, extra }) {
-  const data = db.load();
+async function placeOrder(req, lines, { paymentMethod, status, extra }) {
   const order = Object.assign({
     id: uuidv4(),
     orderNumber: 'AVL' + Date.now().toString().slice(-8),
@@ -52,9 +48,8 @@ function placeOrder(req, lines, { paymentMethod, status, extra }) {
     createdAt: new Date().toISOString()
   }, extra || {});
 
-  data.orders.push(order);
-  data.carts[req.ownerId] = [];
-  db.save();
+  await db.insertOrder(order);
+  await db.setCart(req.ownerId, []);
   return order;
 }
 
@@ -64,34 +59,36 @@ function validateShipping(shipping) {
 
 // POST /api/orders/checkout
 // body: { shipping: { name, phone, address, city, state, pincode }, paymentMethod: 'cod' }
-router.post('/checkout', (req, res) => {
-  const { shipping } = req.body || {};
-  if (!validateShipping(shipping)) {
-    return res.status(400).json({ error: 'shipping.name, phone, address and pincode are required' });
-  }
+router.post('/checkout', async (req, res, next) => {
+  try {
+    const { shipping } = req.body || {};
+    if (!validateShipping(shipping)) {
+      return res.status(400).json({ error: 'shipping.name, phone, address and pincode are required' });
+    }
 
-  const lines = getCartLines(req.ownerId);
-  if (lines.length === 0) return res.status(400).json({ error: 'Cart is empty or items are no longer available' });
+    const lines = await getCartLines(req.ownerId);
+    if (lines.length === 0) return res.status(400).json({ error: 'Cart is empty or items are no longer available' });
 
-  const order = placeOrder(req, lines, { paymentMethod: 'cod', status: 'placed' });
-  res.status(201).json(order);
+    const order = await placeOrder(req, lines, { paymentMethod: 'cod', status: 'placed' });
+    res.status(201).json(order);
+  } catch (err) { next(err); }
 });
 
 // GET /api/orders  — order history for the current owner (guest or logged-in)
-router.get('/', (req, res) => {
-  const data = db.load();
-  const orders = data.orders
-    .filter((o) => o.ownerId === req.ownerId)
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  res.json({ items: orders });
+router.get('/', async (req, res, next) => {
+  try {
+    const orders = await db.findOrdersByOwner(req.ownerId);
+    res.json({ items: orders });
+  } catch (err) { next(err); }
 });
 
 // GET /api/orders/:id
-router.get('/:id', (req, res) => {
-  const data = db.load();
-  const order = data.orders.find((o) => o.id === req.params.id && o.ownerId === req.ownerId);
-  if (!order) return res.status(404).json({ error: 'Order not found' });
-  res.json(order);
+router.get('/:id', async (req, res, next) => {
+  try {
+    const order = await db.findOrderByIdForOwner(req.params.id, req.ownerId);
+    if (!order) return res.status(404).json({ error: 'Order not found' });
+    res.json(order);
+  } catch (err) { next(err); }
 });
 
 module.exports = router;

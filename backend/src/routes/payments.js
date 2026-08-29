@@ -27,62 +27,63 @@ function razorpayRequest(creds, path, body) {
 // POST /api/payments/razorpay/order
 // Creates a Razorpay order sized to the current cart total. Call this right
 // before opening the Razorpay Checkout widget on the frontend.
-router.post('/razorpay/order', (req, res) => {
+router.post('/razorpay/order', async (req, res) => {
   const creds = credentials();
   if (!creds) return res.status(503).json({ error: 'Razorpay is not configured on this server' });
 
-  const lines = getCartLines(req.ownerId);
-  if (lines.length === 0) return res.status(400).json({ error: 'Cart is empty or items are no longer available' });
+  try {
+    const lines = await getCartLines(req.ownerId);
+    if (lines.length === 0) return res.status(400).json({ error: 'Cart is empty or items are no longer available' });
 
-  const totals = computeTotals(lines);
-  razorpayRequest(creds, '/orders', {
-    amount: Math.round(totals.total * 100), // paise
-    currency: 'INR',
-    receipt: 'avl_' + Date.now()
-  })
-    .then((rpOrder) => {
-      res.json({ keyId: creds.keyId, orderId: rpOrder.id, amount: rpOrder.amount, currency: rpOrder.currency });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(502).json({ error: 'Could not create Razorpay order' });
+    const totals = computeTotals(lines);
+    const rpOrder = await razorpayRequest(creds, '/orders', {
+      amount: Math.round(totals.total * 100), // paise
+      currency: 'INR',
+      receipt: 'avl_' + Date.now()
     });
+    res.json({ keyId: creds.keyId, orderId: rpOrder.id, amount: rpOrder.amount, currency: rpOrder.currency });
+  } catch (err) {
+    console.error(err);
+    res.status(502).json({ error: 'Could not create Razorpay order' });
+  }
 });
 
 // POST /api/payments/razorpay/verify
 // body: { shipping, razorpay_order_id, razorpay_payment_id, razorpay_signature }
 // Verifies the payment signature, then builds the order from the (still
 // intact) cart and empties it — mirroring /api/orders/checkout for COD.
-router.post('/razorpay/verify', (req, res) => {
-  const creds = credentials();
-  if (!creds) return res.status(503).json({ error: 'Razorpay is not configured on this server' });
+router.post('/razorpay/verify', async (req, res, next) => {
+  try {
+    const creds = credentials();
+    if (!creds) return res.status(503).json({ error: 'Razorpay is not configured on this server' });
 
-  const { shipping, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body || {};
-  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
-    return res.status(400).json({ error: 'razorpay_order_id, razorpay_payment_id and razorpay_signature are required' });
-  }
-  if (!validateShipping(shipping)) {
-    return res.status(400).json({ error: 'shipping.name, phone, address and pincode are required' });
-  }
+    const { shipping, razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body || {};
+    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+      return res.status(400).json({ error: 'razorpay_order_id, razorpay_payment_id and razorpay_signature are required' });
+    }
+    if (!validateShipping(shipping)) {
+      return res.status(400).json({ error: 'shipping.name, phone, address and pincode are required' });
+    }
 
-  const expected = crypto
-    .createHmac('sha256', creds.keySecret)
-    .update(`${razorpay_order_id}|${razorpay_payment_id}`)
-    .digest('hex');
+    const expected = crypto
+      .createHmac('sha256', creds.keySecret)
+      .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+      .digest('hex');
 
-  if (expected !== razorpay_signature) {
-    return res.status(400).json({ error: 'Payment verification failed' });
-  }
+    if (expected !== razorpay_signature) {
+      return res.status(400).json({ error: 'Payment verification failed' });
+    }
 
-  const lines = getCartLines(req.ownerId);
-  if (lines.length === 0) return res.status(400).json({ error: 'Cart is empty or items are no longer available' });
+    const lines = await getCartLines(req.ownerId);
+    if (lines.length === 0) return res.status(400).json({ error: 'Cart is empty or items are no longer available' });
 
-  const order = placeOrder(req, lines, {
-    paymentMethod: 'razorpay',
-    status: 'paid',
-    extra: { razorpayOrderId: razorpay_order_id, razorpayPaymentId: razorpay_payment_id }
-  });
-  res.status(201).json(order);
+    const order = await placeOrder(req, lines, {
+      paymentMethod: 'razorpay',
+      status: 'paid',
+      extra: { razorpayOrderId: razorpay_order_id, razorpayPaymentId: razorpay_payment_id }
+    });
+    res.status(201).json(order);
+  } catch (err) { next(err); }
 });
 
 module.exports = router;

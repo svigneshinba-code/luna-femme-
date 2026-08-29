@@ -47,12 +47,15 @@ function requireAuth(req, res, next) {
 // Requires a logged-in user whose stored role is 'admin'. Looks the role up
 // fresh from the db rather than trusting the JWT payload, so revoking admin
 // access takes effect immediately without waiting for the token to expire.
-function requireAdmin(req, res, next) {
+async function requireAdmin(req, res, next) {
   if (!req.user) return res.status(401).json({ error: 'Not authenticated' });
-  const data = db.load();
-  const user = data.users.find((u) => u.id === req.user.id);
-  if (!user || user.role !== 'admin') return res.status(403).json({ error: 'Admin access required' });
-  next();
+  try {
+    const user = await db.findUserById(req.user.id);
+    if (!user || user.role !== 'admin') return res.status(403).json({ error: 'Admin access required' });
+    next();
+  } catch (err) {
+    next(err);
+  }
 }
 
 // Every cart/wishlist request needs an "owner" — the logged-in user's id if
