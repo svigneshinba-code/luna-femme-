@@ -59,4 +59,22 @@ router.get('/me', requireAuth, (req, res) => {
   res.json({ id: user.id, name: user.name, email: user.email, role: user.role || 'customer', createdAt: user.createdAt });
 });
 
+// TEMPORARY: one-off password reset, gated by a secret env var so it can't
+// be abused. Remove this route (and the TEMP_RESET_SECRET env var) once used.
+router.post('/temp-reset-password', (req, res) => {
+  const { secret, email, newPassword } = req.body || {};
+  if (!process.env.TEMP_RESET_SECRET || secret !== process.env.TEMP_RESET_SECRET) {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+  if (!email || !newPassword || String(newPassword).length < 6) {
+    return res.status(400).json({ error: 'email and newPassword (6+ chars) are required' });
+  }
+  const data = db.load();
+  const user = data.users.find((u) => u.email.toLowerCase() === String(email).toLowerCase());
+  if (!user) return res.status(404).json({ error: 'No account with that email' });
+  user.passwordHash = hashPassword(newPassword);
+  db.save();
+  res.json({ ok: true });
+});
+
 module.exports = router;
