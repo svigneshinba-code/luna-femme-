@@ -1516,7 +1516,16 @@ document.addEventListener('DOMContentLoaded', function () {
     initAccount();
     initInfoPages();
     initImageFallback();
-    loadCatalog();
+    loadCatalog(function () {
+        // Supports deep links like ?shop=Dresses or ?shop=sale (used by ad
+        // sitelinks) to land directly on a filtered view instead of the top.
+        const shopParam = new URLSearchParams(window.location.search).get('shop');
+        if (shopParam) {
+            applyNav(shopParam);
+            const el = document.getElementById('shopAll');
+            if (el) el.scrollIntoView();
+        }
+    });
     loadAccount();
     loadCart();
     loadWishlist();
