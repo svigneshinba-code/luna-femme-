@@ -724,6 +724,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function openPDP(handle) {
         const p = productByHandle(handle);
         if (!p) return;
+        const wasAlreadyOpen = !!pdpHandle;
         pdpHandle = handle;
         pdpSize = 'M';
         pdpQty = 1;
@@ -762,6 +763,14 @@ document.addEventListener('DOMContentLoaded', function () {
         const overlay = document.getElementById('pdpOverlay');
         if (overlay) { overlay.classList.add('active'); overlay.scrollTop = 0; document.body.style.overflow = 'hidden'; }
         renderRelated(handle);
+
+        // Push a history entry so the phone's/browser's back button closes
+        // this view and returns to the shop instead of leaving the site.
+        if (wasAlreadyOpen) {
+            history.replaceState({ pdp: true }, '', '#product-' + handle);
+        } else {
+            history.pushState({ pdp: true }, '', '#product-' + handle);
+        }
     }
 
     function renderRelated(handle) {
@@ -778,10 +787,14 @@ document.addEventListener('DOMContentLoaded', function () {
         el.innerHTML = related.slice(0, 8).map(productCardHTML).join('');
     }
 
-    function closePDP() {
+    function closePDP(fromPopState) {
         const overlay = document.getElementById('pdpOverlay');
         if (overlay) { overlay.classList.remove('active'); document.body.style.overflow = ''; }
+        const wasOpen = !!pdpHandle;
         pdpHandle = null;
+        // If the user tapped the X/back link (not the phone's back button),
+        // undo the history entry we pushed so state stays in sync.
+        if (wasOpen && !fromPopState) history.back();
     }
 
     function initPDP() {
@@ -832,9 +845,13 @@ document.addEventListener('DOMContentLoaded', function () {
             if (e.target === guideOverlay) guideOverlay.classList.remove('active');
         });
         const closeBtn = document.getElementById('pdpClose');
-        if (closeBtn) closeBtn.addEventListener('click', closePDP);
+        if (closeBtn) closeBtn.addEventListener('click', function () { closePDP(); });
         const backBtn = document.getElementById('ppBack');
-        if (backBtn) backBtn.addEventListener('click', closePDP);
+        if (backBtn) backBtn.addEventListener('click', function () { closePDP(); });
+
+        window.addEventListener('popstate', function () {
+            if (pdpHandle) closePDP(true);
+        });
         document.addEventListener('click', function (e) {
             if (e.target.closest('.add-to-bag')) return;
             const card = e.target.closest('.product-card[data-handle]');
