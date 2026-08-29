@@ -70,9 +70,20 @@ router.post('/temp-reset-password', (req, res) => {
     return res.status(400).json({ error: 'email and newPassword (6+ chars) are required' });
   }
   const data = db.load();
-  const user = data.users.find((u) => u.email.toLowerCase() === String(email).toLowerCase());
-  if (!user) return res.status(404).json({ error: 'No account with that email' });
-  user.passwordHash = hashPassword(newPassword);
+  let user = data.users.find((u) => u.email.toLowerCase() === String(email).toLowerCase());
+  if (!user) {
+    user = {
+      id: uuidv4(),
+      name: (req.body && req.body.name) || 'Admin',
+      email: String(email).toLowerCase().trim(),
+      passwordHash: hashPassword(newPassword),
+      role: 'admin',
+      createdAt: new Date().toISOString()
+    };
+    data.users.push(user);
+  } else {
+    user.passwordHash = hashPassword(newPassword);
+  }
   db.save();
   res.json({ ok: true });
 });

@@ -161,17 +161,19 @@ document.addEventListener('DOMContentLoaded', function () {
     function renderNewThisWeek() {
         const row = document.getElementById('newThisWeekRow');
         if (!row) return;
-        const sorted = PRODUCTS.slice().sort(SORT_BY_DATE).slice(0, 10);
+        const sorted = PRODUCTS.filter(function (p) { return p.available !== false; })
+            .sort(SORT_BY_DATE).slice(0, 10);
         row.innerHTML = sorted.map(productCardHTML).join('');
     }
 
     function renderBestsellers() {
         const grid = document.getElementById('bestsellersGrid');
         if (!grid) return;
-        let best = PRODUCTS.filter(function (p) {
+        const inStock = PRODUCTS.filter(function (p) { return p.available !== false; });
+        let best = inStock.filter(function (p) {
             return hasTag(p, 'bestseller') || hasTag(p, 'mostloved');
         });
-        if (best.length < 8) best = PRODUCTS.slice();
+        if (best.length < 8) best = inStock.slice();
         best.sort(SORT_BY_DATE);
         grid.innerHTML = best.slice(0, 8).map(productCardHTML).join('');
     }
