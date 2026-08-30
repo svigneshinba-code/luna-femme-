@@ -1295,7 +1295,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function trackPurchaseConversion(order) {
+        if (typeof gtag !== 'function') return;
+        gtag('event', 'conversion', {
+            send_to: 'AW-18335514085/1AMECM7Xj-ocEOX7hqdE',
+            transaction_id: order.orderNumber,
+            value: order.totals.total,
+            currency: 'INR'
+        });
+    }
+
     function showOrderSuccess(order) {
+        trackPurchaseConversion(order);
         const noEl = document.getElementById('orderNo');
         if (noEl) noEl.textContent = 'order #' + order.orderNumber;
         const totEl = document.getElementById('orderTotal');
