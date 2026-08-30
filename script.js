@@ -1219,15 +1219,19 @@ document.addEventListener('DOMContentLoaded', function () {
         return { items: cartTotal(), ship: ship, total: cartTotal() + ship };
     }
 
+    const FREE_SHIP_THRESHOLD = 1499;
+    const SHIP_COST = 79;
+
     function coShippingFee() {
-        return 100;
+        const subtotal = cartTotal();
+        return subtotal >= FREE_SHIP_THRESHOLD || subtotal === 0 ? 0 : SHIP_COST;
     }
 
     function coRefreshTotals() {
         const t = checkoutTotal();
         const shipEl = document.getElementById('coShippingVal');
         const totalEl = document.getElementById('coTotal');
-        if (shipEl) shipEl.textContent = '+ ₹ ' + t.ship + ' (shipping)';
+        if (shipEl) shipEl.textContent = t.ship > 0 ? '+ ₹ ' + t.ship + ' (shipping)' : 'free shipping';
         if (totalEl) totalEl.textContent = fmtPrice(t.total);
     }
 
