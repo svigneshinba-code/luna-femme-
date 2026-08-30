@@ -1300,18 +1300,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function trackPurchaseConversion(order) {
-        if (typeof gtag !== 'function') return;
+        if (typeof gtag !== 'function') {
+            console.warn('[gtag] not loaded — conversion NOT sent (likely blocked by an ad blocker/extension)');
+            return;
+        }
 
         // Google Ads conversion action ("Purchase")
-        gtag('event', 'conversion', {
+        const adsPayload = {
             send_to: 'AW-18335514085/1AMECM7Xj-ocEOX7hqdE',
             transaction_id: order.orderNumber,
             value: order.totals.total,
             currency: 'INR'
-        });
+        };
+        console.log('[gtag] firing Ads conversion event:', adsPayload);
+        gtag('event', 'conversion', adsPayload);
 
         // GA4 purchase event — feeds the "lunafemme.in (web) purchase" conversion action
-        gtag('event', 'purchase', {
+        const ga4Payload = {
             transaction_id: order.orderNumber,
             value: order.totals.total,
             currency: 'INR',
@@ -1324,7 +1329,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     quantity: item.qty
                 };
             })
-        });
+        };
+        console.log('[gtag] firing GA4 purchase event:', ga4Payload);
+        gtag('event', 'purchase', ga4Payload);
     }
 
     function showOrderSuccess(order) {
