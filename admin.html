@@ -86,6 +86,9 @@
     table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; }
     th, td { text-align: left; padding: 10px 12px; font-size: 12.5px; border-bottom: 1px solid #eee7dc; }
     th { background: #f0ece5; font-weight: 700; text-transform: lowercase; }
+    .order-item-line { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+    .order-item-line:last-child { margin-bottom: 0; }
+    .order-item-thumb { width: 34px; height: 34px; object-fit: cover; border-radius: 6px; background: #f0ece5; flex-shrink: 0; }
     tr:last-child td { border-bottom: none; }
     .table-wrap { overflow-x: auto; background: #fff; border-radius: 10px; }
 
@@ -289,7 +292,12 @@ function tryResumeSession() {
 
 /* ---------- Orders ---------- */
 function orderRow(order) {
-    const itemsSummary = order.items.map(function (l) { return esc(l.title) + ' x' + l.qty; }).join(', ');
+    const itemsSummary = order.items.map(function (l) {
+        return '<div class="order-item-line">' +
+            '<img class="order-item-thumb" src="' + esc(l.img || '') + '" alt="' + esc(l.title) + '" loading="lazy">' +
+            '<span>' + esc(l.title) + ' x' + l.qty + '</span>' +
+            '</div>';
+    }).join('');
     const options = ['placed', 'paid', 'shipped', 'delivered', 'cancelled'].map(function (s) {
         return '<option value="' + s + '"' + (s === order.status ? ' selected' : '') + '>' + s + '</option>';
     }).join('');
