@@ -1301,11 +1301,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function trackPurchaseConversion(order) {
         if (typeof gtag !== 'function') return;
+
+        // Google Ads conversion action ("Purchase")
         gtag('event', 'conversion', {
             send_to: 'AW-18335514085/1AMECM7Xj-ocEOX7hqdE',
             transaction_id: order.orderNumber,
             value: order.totals.total,
             currency: 'INR'
+        });
+
+        // GA4 purchase event — feeds the "lunafemme.in (web) purchase" conversion action
+        gtag('event', 'purchase', {
+            transaction_id: order.orderNumber,
+            value: order.totals.total,
+            currency: 'INR',
+            shipping: order.totals.shipping,
+            items: order.items.map(function (item) {
+                return {
+                    item_id: item.handle,
+                    item_name: item.title,
+                    price: item.price,
+                    quantity: item.qty
+                };
+            })
         });
     }
 
