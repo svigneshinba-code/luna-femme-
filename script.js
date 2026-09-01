@@ -86,6 +86,9 @@ document.addEventListener('DOMContentLoaded', function () {
             p.title = String(p.title || '');
             p.type = String(p.type || '');
             p.img = p.img || 'images/dress1.svg';
+            if (!p.gallery || !Array.isArray(p.gallery) || p.gallery.length === 0) {
+                p.gallery = [p.img];
+            }
             return p;
         });
     }
@@ -706,7 +709,68 @@ document.addEventListener('DOMContentLoaded', function () {
     let pdpHandle = null;
     let pdpSize = 'M';
     let pdpQty = 1;
+    let curImageIndex = 0;
+    let lightboxImages = [];
+    let lightboxIndex = 0;
     const SIZES = ['S', 'M', 'L', 'XL'];
+
+    function renderPdpThumbs(images) {
+        const el = document.getElementById('pdpThumbs');
+        if (!el) return;
+        el.innerHTML = images.map(function (src, i) {
+            return '<button type="button" class="pdp-thumb' + (i === curImageIndex ? ' active' : '') + '" data-index="' + i + '">' +
+                '<img src="' + src + '" alt="" loading="lazy">' +
+                '</button>';
+        }).join('');
+    }
+
+    function setMainImage(images, index) {
+        const img = document.getElementById('pdpImg');
+        if (!img) return;
+        if (index >= 0 && index < images.length) {
+            curImageIndex = index;
+            img.src = images[index];
+            img.setAttribute('data-swap', '1');
+            const thumbs = document.querySelectorAll('.pdp-thumb');
+            thumbs.forEach(function (t, i) {
+                t.classList.toggle('active', i === index);
+            });
+            const thumbWrap = document.getElementById('pdpThumbs');
+            if (thumbWrap && thumbs[index]) {
+                thumbs[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+            }
+        }
+    }
+
+    function openLightbox(images, index) {
+        lightboxImages = images.slice();
+        lightboxIndex = Math.max(0, Math.min(index, images.length - 1));
+        const box = document.getElementById('pdpLightbox');
+        const limg = document.getElementById('lightboxImg');
+        const counter = document.getElementById('lightboxCounter');
+        if (!box || !limg) return;
+        limg.src = lightboxImages[lightboxIndex];
+        if (counter) counter.textContent = (lightboxIndex + 1) + ' / ' + lightboxImages.length;
+        box.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+        const box = document.getElementById('pdpLightbox');
+        if (box) box.classList.remove('active');
+        const overlay = document.getElementById('pdpOverlay');
+        document.body.style.overflow = (overlay && overlay.classList.contains('active')) ? 'hidden' : '';
+    }
+
+    function navLightbox(dir) {
+        const box = document.getElementById('pdpLightbox');
+        if (!box || !box.classList.contains('active')) return;
+        lightboxIndex = (lightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+        const limg = document.getElementById('lightboxImg');
+        const counter = document.getElementById('lightboxCounter');
+        if (limg) limg.src = lightboxImages[lightboxIndex];
+        if (counter) counter.textContent = (lightboxIndex + 1) + ' / ' + lightboxImages.length;
+    }
 
     function handleRating(handle) {
         let h = 0;
@@ -741,7 +805,10 @@ document.addEventListener('DOMContentLoaded', function () {
         const rating = document.getElementById('pdpRating');
         const wish = document.getElementById('pdpWish');
         const qtyVal = document.getElementById('pdpQtyVal');
-        if (img) { img.src = p.img || 'images/dress1.svg'; img.alt = p.title; img.removeAttribute('data-swap'); }
+        curImageIndex = 0;
+        const gallery = galleryFor(p);
+        if (img) { img.src = gallery[0]; img.alt = p.title; img.removeAttribute('data-swap'); }
+        renderPdpThumbs(gallery);
         if (type) type.textContent = (p.type || 'product').toLowerCase();
         if (title) title.textContent = p.title.toLowerCase();
         if (sale) sale.textContent = fmtPrice(p.price);
@@ -776,6 +843,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
+    function galleryFor(p) {
+        if (!p) return ['images/dress1.svg'];
+        if (Array.isArray(p.gallery) && p.gallery.length) return p.gallery.slice();
+        const base = p.img || 'images/dress1.svg';
+        const out = [];
+        if (base) out.push(base);
+        if (p.title && PRODUCTS.length > 1) {
+            PRODUCTS.forEach(function (x) {
+                if (x.handle === p.handle) return;
+                if (x.title === p.title && x.img && out.indexOf(x.img) === -1) {
+                    out.push(x.img);
+                }
+            });
+        }
+        // Always ensure every product shows multiple images (uptownie style) -
+        // reuse the product's own image plus one placeholder for a fuller gallery.
+        while (out.length < 4) out.push(base);
+        return out.slice(0, 4);
+    }
+
     function renderRelated(handle) {
         const el = document.getElementById('ppRelated');
         if (!el) return;
@@ -791,6 +878,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function closePDP(fromPopState) {
+        closeLightbox();
         const overlay = document.getElementById('pdpOverlay');
         if (overlay) { overlay.classList.remove('active'); document.body.style.overflow = ''; }
         const wasOpen = !!pdpHandle;
@@ -851,6 +939,51 @@ document.addEventListener('DOMContentLoaded', function () {
         if (closeBtn) closeBtn.addEventListener('click', function () { closePDP(); });
         const backBtn = document.getElementById('ppBack');
         if (backBtn) backBtn.addEventListener('click', function () { closePDP(); });
+
+        // Thumbnail click -> switch main image
+        document.addEventListener('click', function (e) {
+            const thumb = e.target.closest('.pdp-thumb');
+            if (thumb) {
+                const index = parseInt(thumb.getAttribute('data-index'), 10);
+                if (!isNaN(index) && pdpHandle) {
+                    const p = productByHandle(pdpHandle);
+                    if (p) setMainImage(galleryFor(p), index);
+                }
+                return;
+            }
+            // Main image click / zoom -> open lightbox
+            const mainImg = e.target.closest('.pdp-main-img-wrap');
+            if (mainImg && pdpHandle && !e.target.closest('.pdp-img-zoom')) {
+                const p = productByHandle(pdpHandle);
+                if (p) openLightbox(galleryFor(p), curImageIndex);
+                return;
+            }
+            const zoomBtn = e.target.closest('.pdp-img-zoom');
+            if (zoomBtn && pdpHandle) {
+                e.preventDefault();
+                e.stopPropagation();
+                const p = productByHandle(pdpHandle);
+                if (p) openLightbox(galleryFor(p), curImageIndex);
+            }
+        });
+
+        // Lightbox controls
+        const lightbox = document.getElementById('pdpLightbox');
+        const lbClose = document.getElementById('lightboxClose');
+        const lbPrev = document.getElementById('lightboxPrev');
+        const lbNext = document.getElementById('lightboxNext');
+        if (lbClose) lbClose.addEventListener('click', function () { closeLightbox(); });
+        if (lbPrev) lbPrev.addEventListener('click', function () { navLightbox(-1); });
+        if (lbNext) lbNext.addEventListener('click', function () { navLightbox(1); });
+        if (lightbox) lightbox.addEventListener('click', function (e) {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', function (e) {
+            if (!lightbox || !lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') { closeLightbox(); }
+            else if (e.key === 'ArrowLeft') { navLightbox(-1); }
+            else if (e.key === 'ArrowRight') { navLightbox(1); }
+        });
 
         window.addEventListener('popstate', function () {
             if (pdpHandle) closePDP(true);
